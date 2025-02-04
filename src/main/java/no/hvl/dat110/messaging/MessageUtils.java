@@ -8,7 +8,7 @@ public class MessageUtils {
 
 	public static final int SEGMENTSIZE = 128;
 
-	public static int MESSAGINGPORT = 8091;
+	public static int MESSAGINGPORT = 8080;
 	public static String MESSAGINGHOST = "localhost";
 
 	public static byte[] encapsulate(Message message) {
@@ -19,7 +19,7 @@ public class MessageUtils {
 		byte[] data = message.getData();
 
 		if (data == null) {
-			throw new IllegalArgumentException("Data was null");
+			throw new IllegalArgumentException("no data");
 		}
 		int length = data.length;
 

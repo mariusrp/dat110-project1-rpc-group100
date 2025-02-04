@@ -8,13 +8,9 @@ public class DisplayStub extends RPCLocalStub {
 	public DisplayStub(RPCClient rpcclient) {
 		super(rpcclient);
 	}
-	
-	public void write (String message) {
 
-		// implement marshalling, call and unmarshalling for write RPC method
-
+	public void write(String message) {
 		byte[] encoded = RPCUtils.marshallString(message);
-		this.rpcclient.call(encoded[0], RPCUtils.decapsulate(encoded));
-
+		this.rpcclient.call((byte)Common.WRITE_RPCID, encoded);
 	}
 }

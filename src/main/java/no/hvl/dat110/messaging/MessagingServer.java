@@ -15,6 +15,7 @@ public class MessagingServer {
 		try {
 
 			this.welcomeSocket = new ServerSocket(port);
+			this.welcomeSocket.setReuseAddress(true);
 
 		} catch (IOException ex) {
 

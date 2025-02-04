@@ -5,9 +5,9 @@ import java.util.Arrays;
 import no.hvl.dat110.TODO;
 
 public class RPCUtils {
-	
+
 	public static byte[] encapsulate(byte rpcid, byte[] payload) {
-		
+
 		byte[] rpcmsg = new byte[payload.length+1];
 
 		// Encapsulate the rpcid and payload in a byte array according to the RPC message syntax / format
@@ -17,9 +17,9 @@ public class RPCUtils {
 		}
 		return rpcmsg;
 	}
-	
+
 	public static byte[] decapsulate(byte[] rpcmsg) {
-		
+
 		byte[] payload = new byte[rpcmsg.length-1];
 
 		for (int i = 0; i < rpcmsg.length-1; i++) {
@@ -46,11 +46,11 @@ public class RPCUtils {
 		decoded = new String(data);
 		return decoded;
 	}
-	
+
 	public static byte[] marshallVoid() {
 		return new byte[0];
 	}
-	
+
 	public static void unmarshallVoid(byte[] data) {
 		if (data == null) {
 			throw new IllegalArgumentException("Data was null");
@@ -62,16 +62,16 @@ public class RPCUtils {
 
 	// convert boolean to a byte array representation
 	public static byte[] marshallBoolean(boolean b) {
-		
+
 		byte[] encoded = new byte[1];
-				
+
 		if (b) {
 			encoded[0] = 1;
 		} else
 		{
 			encoded[0] = 0;
 		}
-		
+
 		return encoded;
 	}
 
@@ -82,25 +82,17 @@ public class RPCUtils {
 
 	// integer to byte array representation
 	public static byte[] marshallInteger(int x) {
-		
-		byte[] encoded = null;
-
-		String stringX = String.valueOf(x);
-		encoded = stringX.getBytes();
-
-		return encoded;
+		ByteBuffer buffer = ByteBuffer.allocate(4);
+		buffer.putInt(x);
+		return buffer.array();
 	}
-	
+
 	// byte array representation to integer
 	public static int unmarshallInteger(byte[] data) {
 		if (data == null) {
 			throw new IllegalArgumentException("Data was null");
 		}
-		int decoded = 0;
-
-		String stringData = new String(data);
-		decoded = Integer.parseInt(stringData);
-
-		return decoded;
+		ByteBuffer buffer = ByteBuffer.wrap(data);
+		return buffer.getInt();
 	}
 }

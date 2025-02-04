@@ -44,17 +44,21 @@ public class MessageConnection {
 	}
 
 	public Message receive() {
-
 		Message message = null;
-		byte[] data;
+		byte[] data = new byte[MessageUtils.SEGMENTSIZE];
+
 		try {
-			data = inStream.readAllBytes();
+			int read = inStream.read(data);
+			if (read != MessageUtils.SEGMENTSIZE) {
+				throw new IOException("Not enough bytes read");
+			}
+
 			message = MessageUtils.decapsulate(data);
+
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		return message;
-		
 	}
 
 	// close the connection by closing streams and the underlying socket	
